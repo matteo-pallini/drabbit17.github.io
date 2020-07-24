@@ -1,0 +1,446 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Sending multiple POST requests from a spidered page using Scrapy - Matteo Pallini’s technical blog</title>
+<meta name="description" content="A possible pattern for replicating programmatically AJAX POST requests when scraping webpages using Scrapy">
+
+
+  <meta name="author" content="Matteo Pallini">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="Matteo Pallini's technical blog">
+<meta property="og:title" content="Sending multiple POST requests from a spidered page using Scrapy">
+<meta property="og:url" content="http://localhost:4000/post-requests-with-scrapy/">
+
+
+  <meta property="og:description" content="A possible pattern for replicating programmatically AJAX POST requests when scraping webpages using Scrapy">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-07-20T00:00:00+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/post-requests-with-scrapy/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Matteo Pallini",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Matteo Pallini's technical blog Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--posts">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          matteopallini.com
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/logo_circular.png" alt="Matteo Pallini" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Matteo Pallini</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>A blog about data and software, and sometimes other stuff</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">London, UK</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+            <li><a href="https://twitter.com/Matteo_Pallini" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/drabbit17" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <div class="archive">
+    
+      <h1 id="page-title" class="page__title">Sending multiple POST requests from a spidered page using Scrapy</h1>
+    
+    <p>Have you ever wanted to scrape the prices of your favourite hiking products website and while doing so realized that the price for a product may change, through an AJAX request, with changes in colour or size? It happened to me while building <a href="https://smarthiker.co.uk/">smarthiker.co.uk</a>, a price comparison website for hiking, climbing and mountaineering products, and replicating that behaviour was quite frustrating. Hopefully, by the end of this post, it won’t be as frustrating for you.</p>
+
+<p><img src="/assets/images/post_requests_with_scrapy/trousers_brown.png" alt="brown_trousers" /></p>
+
+<p><img src="/assets/images/post_requests_with_scrapy/trousers_blue.png" alt="blue_trousers" /></p>
+
+<h2 id="basic-scraping-with-scrapy">Basic Scraping with Scrapy</h2>
+
+<p>Scrapy is a python library making available an easy to use framework for scraping. One of the main components of the library is the Spider class, which allows you to specify from what URL to start spidering from, how to parse the HTML pages retrieved, and possibly send other requests from them.</p>
+
+<p>I will dare to claim that usually when scraping an e-commerce website the final goal is obtaining one item per product sold and all its related pieces of info. Therefore, the final yield statement, that doesn’t generate further requests, should return all the scraped data for that single product.</p>
+
+<p>Below you can find some python pseudo-code for a spider scraping the hiking e-commerce website <a href="https://www.bananafingers.co.uk/">BananaFingers.co.uk</a>. All the products of interest are available on a <a href="https://www.bananafingers.co.uk/brands">series of brand-specific pages</a> presenting each a paginated list of products. The code below is a simplified version of the one used in production and it is only meant to make it easier to understand how to spider the website, not to actually spider it. However, though some relatively small changes it will also return the scraped products (the proof is left as an exercise to the interested reader).</p>
+
+<script src="https://gist.github.com/52504d5a5712e1bd0a91f90b7abc883d.js"> </script>
+
+<p>So, now you have successfully scraped all the products and you are pretty proud of that. However, when manually checking the results you realize that the price for the same product may change for different sizes or colours and that you have to check the price of each combination of the two individually. When you pick a colour from the pick-list on the webpage an AJAX POST request is sent and the price value is updated on the page. So, now we need to send as many calls as colour-size combinations available and somehow return their results with the original response for the product page.</p>
+
+<h2 id="figuring-out-the-post-specifics">Figuring out the POST specifics</h2>
+
+<p>Using your preferred browser development tools It should be relatively easy to see the POST request specifics (target URL, payload, etc). As you can see in the picture below we can easily access the payload content and get a feeling of what we will need to change to get the colour-size prices. In this case, we need to specify the field colour, the size, and the product id.</p>
+
+<p><img src="/assets/images/post_requests_with_scrapy/dev_tools_post_request.png" alt="inspecting_network_calls" /></p>
+
+<p>The product-specific POST request payload keys and values (“attributes[field_waist_size]”: 1595, “attributes[field_color]”: 730), can be automatically scraped from the DOM. As you can see in the image below, the key for the colour/size field is available through the “name” attribute in the “select” HTML element. While the value can be accessed using the “value” attribute in the “option” HTML element.</p>
+
+<p><img src="/assets/images/post_requests_with_scrapy/dev_tools_dom.png" alt="inspecting_dom_key_value_pairs" /></p>
+
+<p>Once you have obtained the key/value pairs for all the options available it should be relatively straightforward to create a list of possible combinations and assemble the needed payloads for each combination.</p>
+
+<p>This process should leave us with a list of key-value pairs to be used as payloads for the different post requests we need to send. Now we need to send the requests and store the results somewhere so that they can be returned with the final item.</p>
+
+<h2 id="two-possible-approaches">Two possible approaches</h2>
+<p>I personally think that the most convenient way of getting all the colour-size prices for a product is sending the POST requests sequentially, carrying over the prices fetched for each combination, and once the list of combinations is exhausted return the item with the original product page HTML and the list of prices fetched. An alternative could be yielding for each POST request an item with the original HTML and relative price returned, and then merge the items further down the pipeline.</p>
+
+<p>In the first case, we for each POST request will wait for the response (and parse it) before sending the next one. While in the latter case the requests will be all sent roughly at the same time (eg through a loop of the iterable containing the payloads) and each response will be parsed independently from the others whenever returned. The extra waiting time of the first approach will probably make it take longer to spider the whole website, although I haven’t really tested this.</p>
+
+<h2 id="cb_kwargs-formerly-known-as-meta-to-the-rescue">cb_kwargs (formerly known as meta) to the rescue!</h2>
+<p>If we want to go down the first route we can use the <a href="https://docs.scrapy.org/en/latest/topics/request-response.html#scrapy.http.Request.cb_kwargs">cb_kwargs</a> argument in the Request to carry over to the response the list of prices already obtained and the list of payloads we still need to send, as well as the HTML for the original page. The pseudo-code below should give you an idea of a possible pattern to do that.</p>
+
+<script src="https://gist.github.com/5262acd3a52265b68f7464a5ecfbc67b.js"> </script>
+
+<p>The parse_product_item is called as soon as the product page is reached by the spider. If this is the first time the method gets called for this page the response_params_for_post list won’t exist and it will be filled with the list of payloads that should be sent for each POST request. While, if the list already exists, the next element will be popped from it and used as payload for the next POST request whose response will be parsed again through the parse_product_item method. This process will keep on going until the list of payloads for the POSTs has been exhausted. At that point, the original HTML body will be passed with all the fetched prices to a custom <a href="https://docs.scrapy.org/en/latest/topics/loaders.html">ItemLoader</a>, so that the values for the item will be extracted.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>To summarise the post, in order to fetch values loaded through AJAX calls triggered by interactive components it should be enough to go through the following steps:</p>
+<ul>
+  <li>Understand how the POST/GET requests get built using the product page data</li>
+  <li>Create a list of payloads/parameters, containing one element per combination you want to check</li>
+  <li>Add one if-else condition in the parsing method so that you can either create the list of payloads/parameters or parse the response coming from the previous POST/GET request</li>
+  <li>Add one if-else condition in the parsing method so that you can either move to send the next POST/GET request either yield the Item with the original HTML and the values fetched</li>
+</ul>
+
+<p>This is probably one of the most interesting scraping problems I worked on while building <a href="https://smarthiker.co.uk/">smarthiker.co.uk</a>. I was quite surprised that the same hiking/climbing/mountaineering product may be sold at a different price depending on colour or size. Still, whether this is surprising or not a robust price comparison website should be able to handle these situations as well.</p>
+
+
+<ul class="taxonomy__index">
+  
+  
+    <li>
+      <a href="#2020">
+        <strong>2020</strong> <span class="taxonomy__count">1</span>
+      </a>
+    </li>
+  
+</ul>
+
+
+
+  <section id="2020" class="taxonomy__section">
+    <h2 class="archive__subtitle">2020</h2>
+    <div class="entries-list">
+      
+        
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a class="title-href" href="/post-requests-with-scrapy/" rel="permalink">Sending multiple POST requests from a spidered page using Scrapy
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 minute read
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">A possible pattern for replicating programmatically AJAX POST requests when scraping webpages using Scrapy
+</p>
+  </article>
+</div>
+
+      
+    </div>
+    <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+  </section>
+
+
+  </div>
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/Matteo_Pallini" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/drabbit17" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Matteo Pallini. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
