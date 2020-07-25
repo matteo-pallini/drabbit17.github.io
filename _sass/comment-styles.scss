@@ -120,16 +120,17 @@ button:hover {
     overflow: hidden;
     position: relative;
 }
-.show-modal:before {
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    background-color: rgba(255, 255, 255, 0.85);
-}
+// commented out to prevent grey overlay to overtake the comment submitted box
+//.show-modal:before {
+//    position: absolute;
+//    content: '';
+//    top: 0;
+//    left: 0;
+//    width: 100%;
+//    height: 100%;
+//    z-index: 999;
+//    background-color: rgba(255, 255, 255, 0.85);
+//}
 .show-modal .modal {
     display: block;
 }
@@ -150,7 +151,6 @@ button:hover {
     margin-left: -150px;
     margin-top: -150px;
     min-height: 0;
-    z-index: 9999;
     box-shadow: 0 2px 2px 2px rgba(0,0,0,.14);
     padding: 16px;
     border-radius: 2px;

@@ -465,16 +465,17 @@ body:hover .visually-hidden button {
   overflow: hidden;
   position: relative;
 
-  &:before {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    background-color: rgba(255, 255, 255, 0.85);
-  }
+  // commented out to prevent grey overlay to overtake the comment submitted box
+  //&:before {
+  //  position: absolute;
+  //  content: "";
+  //  top: 0;
+  //  left: 0;
+  //  width: 100%;
+  //  height: 100%;
+  //  z-index: 999;
+  //  background-color: rgba(255, 255, 255, 0.85);
+  //}
 
   .modal {
     display: block;
