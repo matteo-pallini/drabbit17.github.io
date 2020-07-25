@@ -30,7 +30,7 @@ masthead_title           : "matteopallini.com" # overrides the website title dis
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
-  provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
+  provider               : "staticman_v2" # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
   disqus:
     shortname            : # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
   discourse:
@@ -44,8 +44,8 @@ comments:
     theme                : # "github-light" (default), "github-dark"
     issue_term           : # "pathname" (default)
   staticman:
-    branch               : # "master"
-    endpoint             : # "https://{your Staticman v3 API}/v3/entry/github/"
+    branch               : "master"
+    endpoint             : "https://matteopallini-blog-staticman2.herokuapp.com/v2/entry/drabbit17/drabbit17.github.io/master/comments"
 reCaptcha:
   siteKey                : "6LdugbUZAAAAAL8bZ-bOEljABh7BtlmicLFAS3sd"
   secret                 : "RMNLB8/tzyCsXi0bpkgMWqWRg9+MHGK1R0WrXFT5WAQttZM13BMXx+Rd9ZaE8lX6esK8gCDneXisHToK7sCY2Nla5KcGmDY4K8E6yGAfT2hd3GCUiT2n/YarCQLoNcrvBnIj2K1hZ9GSkeuGZl+qOkD5wP38m9dtvXWE9Y6BBjHjH00YCIMG3KCXtzam+bWxnzt9efzjVs9/8UNcH/M5zMlm8x9ytdI8/2w2bsJOUTW7dQswbkgPMDVqhoIIPNBJihi4OVTvuHYJ6VqXqnK5vvIahirVDKSUZRe9hRvNIFwTdJNB64Kt/zT5D1woamoI8pvHSVn8/9ZBdXFwO/FFFtB2XYv8dhpZg8ccroPTzx3PufwYhrpWUjRsGzzEpXyXm/Lp2Z+UFlFr4ZEXIOJfcNcn12uabBB2xL+lUtDj7CbW/dkvb2UNGVuCZY72Gq7hqiSfZZBHdg/cHsfyJOYk9MQbe5fL4iNO4TvQ0W9zU99pf5xBgDoD/vz1w8p5rVE/fGMG2gdIpZHDHLRldKpwEiI+I04tCqz4SgY5B6ouCfvTxo2GG9XL5rZ49AOqgwXTCc1f1ytite5Q/5nB/TMRIKQYOqHnJVE/Zh9SsMQkfB1Dw02qD/BCd3zuAg6LdRa9U3bQ9n2Fy7J5RKnJCNTE8liPM+Lni3U4tZe4zul0q+Y="
