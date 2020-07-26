@@ -6,7 +6,9 @@ title: Sending multiple POST requests from a spidered page using Scrapy
 excerpt: A possible pattern for replicating programmatically AJAX POST requests when scraping webpages using Scrapy
 ---
 
-Have you ever wanted to scrape the prices of your favourite hiking products website and while doing so realized that the price for a product may change, through an AJAX request, with changes in colour or size? It happened to me while building [smarthiker.co.uk](https://smarthiker.co.uk/), a price comparison website for hiking, climbing and mountaineering products, and replicating that behaviour was quite frustrating. Hopefully, by the end of this post, it won’t be as frustrating for you.
+Have you ever tried to scrape a data point, whose value changed with changes in other options available on the webpage? In this article I am going to show a possible pattern for scraping all the data point possible values when these get retrieved through AJAX requests. 
+
+More specifically I found myself using this pattern while building [smarthiker.co.uk](https://smarthiker.co.uk/), a price comparison website for hiking, climbing and mountaineering products. While scraping products details I realised that the price for the same product may change for a different colour or size. The two pictures below (which are made up) should give you an idea of what I am talking about.
 
 
 ![brown_trousers](/assets/images/post_requests_with_scrapy/trousers_brown.png)
@@ -19,13 +21,14 @@ Have you ever wanted to scrape the prices of your favourite hiking products webs
 
 Scrapy is a python library making available an easy to use framework for scraping. One of the main components of the library is the Spider class, which allows you to specify from what URL to start spidering from, how to parse the HTML pages retrieved, and possibly send other requests from them.
 
-I will dare to claim that usually when scraping an e-commerce website the final goal is obtaining one item per product sold and all its related pieces of info. Therefore, the final yield statement, that doesn’t generate further requests, should return all the scraped data for that single product.
+I will dare to claim that usually when scraping an e-commerce website the final goal is obtaining one item per product sold and all its related pieces of info. Therefore, the final yield statement, that doesn't lead to further requests, should return all the scraped data for the single product considered.
 
-Below you can find some python pseudo-code for a spider scraping the hiking e-commerce website [BananaFingers.co.uk](https://www.bananafingers.co.uk/). All the products of interest are available on a [series of brand-specific pages](https://www.bananafingers.co.uk/brands) presenting each a paginated list of products. The code below is a simplified version of the one used in production and it is only meant to make it easier to understand how to spider the website, not to actually spider it. However, though some relatively small changes it will also return the scraped products (the proof is left as an exercise to the interested reader).
+Below you can find some python pseudo-code for a spider scraping the hiking e-commerce website [BananaFingers.co.uk](https://www.bananafingers.co.uk/). All the products of interest are available on a [series of brand-specific pages](https://www.bananafingers.co.uk/brands) presenting each a paginated list of products. The code below is a simplified version of the one used in production and it is only meant to make it easier to understand how to spider the website, not to actually spider it.
 
 {% gist 52504d5a5712e1bd0a91f90b7abc883d %}
 
-So, now you have successfully scraped all the products and you are pretty proud of that. However, when manually checking the results you realize that the price for the same product may change for different sizes or colours and that you have to check the price of each combination of the two individually. When you pick a colour from the pick-list on the webpage an AJAX POST request is sent and the price value is updated on the page. So, now we need to send as many calls as colour-size combinations available and somehow return their results with the original response for the product page.
+So, using a modified version of the snippet above you should be able to successfully scrape all the products sold on the website. However, only one price is scraped for each product, the one charged for the default colour-size combination loaded on the webpage. In order to get the specific colour-size combination prices you need to replicate the AJAX requests sent for each combination. When you pick a colour from the pick-list on the webpage an AJAX POST request is sent and the price value is updated on the page. So, to get the full picture we need to send as many calls as colour-size combinations available and somehow return their results with the original response for the product page.
+
 
 ## Figuring out the POST specifics
 
