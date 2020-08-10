@@ -6,7 +6,7 @@ title: Sending multiple POST requests from a spidered page using Scrapy
 excerpt: A possible pattern for replicating programmatically AJAX POST requests when scraping webpages using Scrapy
 ---
 
-Have you ever tried to scrape a data point whose value changed with changes in other options available on the webpage? In this article I am going to show a possible pattern for scraping all the data point possible values when these get retrieved through AJAX requests. 
+Have you ever tried to scrape a data point whose value changed with changes in other options available on the webpage? In this article I am going to show a possible pattern for scraping all the values available when these are retrieved through AJAX requests. 
 
 More specifically I found myself using this pattern while building [smarthiker.co.uk](https://smarthiker.co.uk/), a price comparison website for hiking, climbing and mountaineering products. While scraping products details I realised that the price for the same product may change for a different colour or size. The two pictures below (which are made up) should give you an idea of what I am talking about.
 
@@ -19,11 +19,11 @@ More specifically I found myself using this pattern while building [smarthiker.c
 
 ## Basic Scraping with Scrapy
 
-Scrapy is a python library making available an easy to use framework for scraping. One of the main components of the library is the Spider class, which allows you to specify from what URL to start spidering from, how to parse the HTML pages retrieved, and possibly send other requests from them.
+Scrapy is a python library making available an easy to use framework for scraping websites. One of the main components of the library is the Spider class. Through this it is possible to specify from what URL to start spidering the website, how to parse the HTML pages retrieved, and possibly send other requests from them.
 
-I will dare to claim that usually when scraping an e-commerce website the final goal is obtaining one item per product sold and all its related pieces of info. Therefore, the final yield statement, that doesn't lead to further requests, should return all the scraped data for the single product considered.
+I will dare to claim that usually when scraping an e-commerce website the final goal is obtaining one object (an Item in the Scrapy framework) per product sold containing all the details of interest. Therefore, the final yield statement, the one not leading to further requests, should return all the scraped data for the single product considered.
 
-Below you can find some python pseudo-code for a spider scraping the hiking e-commerce website [BananaFingers.co.uk](https://www.bananafingers.co.uk/). All the products of interest are available on a [series of brand-specific pages](https://www.bananafingers.co.uk/brands) presenting each a paginated list of products. The code below is a simplified version of the one used in production and it is only meant to make it easier to understand how to spider the website, not to actually spider it.
+Below you can find some python pseudo-code for a spider scraping the hiking e-commerce website [BananaFingers.co.uk](https://www.bananafingers.co.uk/). Using a [series of brand-specific pages](https://www.bananafingers.co.uk/brands), presenting each a paginated list of products, it should be possible to get all the products available on the website. The code below is a simplified version of the one used in production and it is only meant to make it easier to understand how to spider the website, not to actually spider it.
 
 {% gist 52504d5a5712e1bd0a91f90b7abc883d %}
 
