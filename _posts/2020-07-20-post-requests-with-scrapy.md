@@ -4,6 +4,7 @@ comments: true
 author_profile: true
 title: Sending multiple POST requests from a spidered page using Scrapy
 excerpt: A possible pattern for replicating programmatically AJAX POST requests when scraping webpages using Scrapy
+date: 2020-07-20
 ---
 
 Have you ever tried to scrape a data point whose value changed with changes in other options available on the webpage? In this article I am going to show a possible pattern for scraping all the values available when these are retrieved through AJAX requests. 
