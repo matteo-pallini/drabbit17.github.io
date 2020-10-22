@@ -20,6 +20,20 @@ layout: default
   <div class="archive">
     {% unless page.header.overlay_color or page.header.overlay_image %}
       <h1 id="page-title" class="page__title">{{ page.title }}</h1>
+
+     <!-- drabbit017: change to include page.date -->
+     <p class="page__meta">
+     {% if page.date %}
+     <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y " }}</time>&emsp;
+        {% endif %}
+     
+       	{% if page.read_time %}
+           <i class="far fa-clock" aria-hidden="true"></i> {% include read-time.html %}
+        {% endif %}
+     </p>
+    {% if page.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ page.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
+    <br />
+    <!-- drabbit017: end change -->
     {% endunless %}
     {{ content }}
   </div>

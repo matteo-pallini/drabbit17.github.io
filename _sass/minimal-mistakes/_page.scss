@@ -283,7 +283,7 @@ body {
   color: $muted-text-color;
   font-family: $sans-serif;
   font-size: $type-size-6;
-
+  display:inline-block; /* drabbit017: move post date and reading time on the same line */
   p {
     margin: 0;
   }
