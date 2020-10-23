@@ -94,7 +94,7 @@ analytics:
 # Site Author
 author:
   name             : "Matteo Pallini"
-  avatar           : "/assets/images/logo_circular.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/logo_circular-compressed.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "A blog about data and software, and sometimes other stuff"
   location         : "London, UK"
   email            :
