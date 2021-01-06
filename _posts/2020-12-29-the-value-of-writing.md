@@ -57,7 +57,8 @@ Few resources which I found helpful:
 - [The elements of Style](https://www.amazon.co.uk/Elements-Style-Fourth-William-Strunk-ebook) contains some good principles and a section on misused words and expressions that could be used as a good reference
 - [Sandy Maguire post on writing technical posts](https://reasonablypolymorphic.com/blog/writing-technical-posts) presents one of the two main principles I always keep in mind, write in a way that makes it easy to “skim for concepts”. In a nutshell, the beginning of each section of writing should make it very easy to identify what concept you want to convey.
 - The other main principle I always keep in mind comes from [Eaton Phil blog](https://notes.eatonphil.com/writing-to-be-read.html), and it’s about optimizing your writing to be read
-- Also [Julian Shapiro guide on writing](https://www.julian.com/guide/write/intro) is quite nice. It offers a nice high-level framework for writing as well as several pragmatic pieces of advice.
+- [Julian Shapiro guide on writing](https://www.julian.com/guide/write/intro) is quite nice. It offers a nice high-level framework for writing as well as several pragmatic pieces of advice.
+- It's worth keeping in mind [Paul Graham's formula for useful writing](http://paulgraham.com/useful.html): importance + novelty + correctness + strength (+ simplicity). I try to keep the formula in mind, without letting it tie my hands. Another gem from the essay worth thinking about "Useful writing makes claims that are as strong as they can be made without becoming false".
 
 Resources that I haven’t read yet, but I should:
 - [On writing well](https://www.amazon.co.uk/Writing-Well-30th-Anniversary)
