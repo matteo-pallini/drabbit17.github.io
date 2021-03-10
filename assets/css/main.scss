@@ -7,3 +7,4 @@
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 @import "comment-styles";
+@import "fenced_code_blocks"; // fenced code block style
