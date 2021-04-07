@@ -3,7 +3,7 @@ layout: posts
 comments: true
 author_profile: true
 title: "Job interviews: mistakes and learnings"
-excerpt: Why interviewing time to time is useful and whay I learned so far by doing so 
+excerpt: Why interviewing time to time is useful and what I learned so far by doing so
 ---
 
 ## On the joy of being judged by a stranger
