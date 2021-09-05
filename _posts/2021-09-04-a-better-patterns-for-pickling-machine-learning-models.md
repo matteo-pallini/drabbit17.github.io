@@ -3,7 +3,7 @@ layout: posts
 comments: true
 author_profile: true
 title: "A better pattern for pickling machine learning models"
-excerpt: Can we do better than a straightforward pickle.dumps?
+excerpt: Can we do better than a straightforward pickle.dump?
 ---
 
 ## TL;DR
@@ -12,7 +12,7 @@ You may do this
 
 ```python
 with open("model.pkl", "wb") as handle:
-		pickle.dump(model, handle)
+	pickle.dump(model, handle)
 ```
 
 But this is probably better
@@ -25,7 +25,7 @@ model_and_details = {
     "commit_id": "commit_id_value",
 }
 with open("model.pkl", "wb") as handle:
-		pickle.dump(model_and_details, handle)
+	pickle.dump(model_and_details, handle)
 ```
 
 ## The common way
@@ -46,11 +46,11 @@ model.predict([[1, 2]])
 
 # save the model
 with open("model.pkl", "bw") as handle:
-		pickle.dump(model, handle)
+	pickle.dump(model, handle)
 
 # load the model
 with open("model.pkl", "br") as handle:
-		model = pickle.load(handle)
+	model = pickle.load(handle)
 
 model.predict([[1, 2]])
 # array([1])
@@ -126,7 +126,7 @@ Would storing something like this then be enough?
 
 ```python
 model_with_meta = {
-		"model": model,
+    "model": model,
     "versions": {"model_library": "1.1.1"}
 }
 
@@ -149,7 +149,7 @@ from models import Model
 model = Model(parameter=2)
 prediction_pre_dump = model.predict(3)
 model_with_meta = {
-		"model": model,
+    "model": model,
     "versions": {"model_library": "1.1.1"}
 }
 
@@ -221,7 +221,7 @@ model_and_details = {
     "commit_id": "commit_id_value",
 }
 with open("model.pkl", "wb") as handle:
-		pickle.dump(model_and_details, handle)
+    pickle.dump(model_and_details, handle)
 ```
 
 By going through these simple extra steps it should become less painful to manage models stored through the pickling.
