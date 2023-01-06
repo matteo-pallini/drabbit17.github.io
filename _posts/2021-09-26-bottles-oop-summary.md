@@ -3,7 +3,7 @@ layout: posts
 comments: true
 author_profile: true
 title: 99 Bottles of OOP highlights 
-excerpt: Several thoughts worth remembering from Sandi Metz's book 99 bottles of OOP
+excerpt: Several ideas worth remembering from Sandi Metz's book 99 bottles of OOP
 ---
 
 I quite enjoyed reading [99 bottles of OOP](https://sandimetz.com/99bottles). It strikes a great balance in giving both general principles, that should help you develop a programming aesthetic, and also pragmatic techniques, that could be used directly until you haven't developed the aesthetic taste you need to guide you.
