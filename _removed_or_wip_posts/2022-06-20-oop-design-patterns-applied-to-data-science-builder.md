@@ -6,7 +6,7 @@ title: "OOP design patterns applied in data science: Builder"
 excerpt: Using the Builder pattern to make more maintainable and flexible creating complex objects
 ---
 
-During this weekend I had the change to attend [PyData London 2022 as a volunteer](https://pydata.org/london2022/). It was a fun experience, which gave me the chance to learn more about the PyData internals, and also to attend a bunch of talks. There were a few talks about applying software engineering and OOP principles when writing data science related code. The presence of these talks combined with how trendy MLOps is nowadays shows how much this market is now focusing more and more on maintainability, which is great.
+During this weekend I had the chance to attend [PyData London 2022 as a volunteer](https://pydata.org/london2022/). It was a fun experience, which gave me the chance to learn more about the PyData internals, and also to attend a bunch of talks. There were a few talks about applying software engineering and OOP principles when writing data science related code. The presence of these talks combined with how trendy MLOps is nowadays shows how much this market is now focusing more and more on maintainability, which is great.
 
 ## Clean Architecture
 Regarding OOP principles I attended the ["Clean Architecture" talk](https://laszlo.substack.com/p/slides-for-my-talk-at-pydata-london) from Laszlo Sragner. I particularly enjoyed how much emphasis he put in how applying OOP design patterns can improve code maintainability also in data science pipelines.
