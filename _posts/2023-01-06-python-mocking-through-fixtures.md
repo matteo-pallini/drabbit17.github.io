@@ -21,7 +21,8 @@ from typing import Any
 import dataclasses
 
 
-# for the sake of showing how this works I am going to replace the third party library client with a mock one that raises when instantiated
+# for the sake of showing how this works I am going to replace the third 
+# party library client with a mock one that raises when instantiated
 class Client:
     def __init__(self, connection_params: dict[str, Any]):
         raise Exception("You shall not instantiate me!")
