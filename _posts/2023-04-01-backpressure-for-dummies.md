@@ -7,7 +7,7 @@ excerpt: A toy example showing how lacking backpressure may lead to failures and
 ---
 
 **TL;DR**
-A backpressure mechanism enables a component of a workflow (service, consumer, step in pipeline, etc) to push back against too much input so that it can avoid overloading under the pressure. This blog post uses a toy example to show the consequences of lacking backpressure in a service doing async calls and also a possible way to add it.
+*A backpressure mechanism enables a component of a workflow (service, consumer, step in pipeline, etc) to push back against too much input so that it can avoid overloading under the pressure. This blog post uses a toy example to show the consequences of lacking backpressure in a service doing async calls and also a possible way to add it.*
 
 It took me a bit of time to understand what backpressure is about. I finally got a decent understanding after reading [“I'm not feeling the async pressure”](https://lucumr.pocoo.org/2020/1/1/async-pressure/) from Armin Ronacher. This post shows a toy example, based on Ronacher’s article, that is meant to show what happens when backpressure is lacking in an async service and how to add it.
 
