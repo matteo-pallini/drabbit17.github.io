@@ -30,7 +30,7 @@ The performance of the 3 endpoints is being tested by simply sending them a few 
 async def get(session: aiohttp.ClientSession, value: int, url: str, retries: int = 10):
     """Sending a request to `url` from within an async session.
     The method supports retries as long as the response status code
-    received is a 503. This is because backpressure will be implemented
+    received is a 429. This is because backpressure will be implemented
     by sending a response with that status code straightaway whenever
     the service is under high load
     """
@@ -38,9 +38,9 @@ async def get(session: aiohttp.ClientSession, value: int, url: str, retries: int
         url_value = f"{url}/{value}"
         logging.info(f"requesting {url_value}")
         resp = await session.request("GET", url=url_value)
-        if resp.status == 503:
+        if resp.status == 429:
             retries -= 1
-            logging.info(f"Got a 503 for {url_value} - retrying")
+            logging.info(f"Got a 429 for {url_value} - retrying")
             await asyncio.sleep(0.3)
             continue
         else:
@@ -105,7 +105,7 @@ async def async_endpoint_without_backpressure(value: int):
     logging.info(f"completed request {value} - {time.time() - start}")
     return {"message": value ** 2}
 ```
-This effectively frees the thread that in the `sync_endpoint` workflow was waiting for `_io` and lets it do other work in the meantime. This almost makes it so that all the `_io` calls are running concurrently and the `time.sleep(2)` partially overlaps.
+This effectively frees the thread that in the `sync_endpoint` workflow was waiting for `_io` and lets it do other work in the meantime. In the `_async_io` function we also replace the `time.sleep` call with the non-blocking `asyncio.sleep` one. In an actual IO scenario this would be similar to do the IO call using an asynchronous python library, rather than a synchronous one. This almost makes it so that all the `_io` calls are running concurrently and the `asyncio.sleep(2)` partially overlaps.
 
 <img src="/assets/images/backpressure_for_dummies/endpoint_async_without_backpressure.png" alt="endpoint async no backpressure" />
 
@@ -128,7 +128,7 @@ async def async_endpoint_with_backpressure(value: int):
     if sem.locked():
         print(f"Semaphore blocked {value}")
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             detail="server overloaded"
                             )
     await sem.acquire()
@@ -144,7 +144,7 @@ async def async_endpoint_with_backpressure(value: int):
         sem.release()
 ```
 
-So, now we are going to use a semaphore to check whether the service has enough capacity to handle more requests. If it doesn’t, because it’s already handling as many as the semaphore allows for, then it will return a response with a status code 503. This is still going to let us process requests concurrently by switching over them when we call `async await` as we were doing with the async endpoint, but only with a smaller number of requests. Any other request beyond this number will be rejected straightaway by the service, letting then the client decide how to deal with it.
+So, now we are going to use a semaphore to check whether the service has enough capacity to handle more requests. If it doesn’t, because it’s already handling as many as the semaphore allows for, then it will return a response with a status code 429. This is still going to let us process requests concurrently by switching over them when we call `async await` as we were doing with the async endpoint, but only with a smaller number of requests. Any other request beyond this number will be rejected straightaway by the service, letting then the client decide how to deal with it.
 
 <img src="/assets/images/backpressure_for_dummies/endpoint_async_backpressured.png" alt="endpoint async with backpressure" />
 
@@ -158,3 +158,5 @@ The lack of backpressure can make a component run out of resources and fail. [Ph
 Both articles should be enough to give an intuitive understanding of what backpressure is and an idea of when it may be needed. This article further solidifies the understanding of these two concepts by providing a toy example in which we initially make a system more performant by introducing async calls, but we also expose it to the kind of failures backpressure should prevent. Backpressure is then introduced through a semaphore making the relative endpoint more performant, compared with the initial one, and also introducing a check to prevent the service from being overloaded.
 
 Time taken to write post: 6 hours
+
+Thanks for reviewing to Declan Crew
